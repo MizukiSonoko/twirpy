@@ -72,6 +72,11 @@ class TwirpASGIApp(base.TwirpBaseApp):
             self._hook.response_prepared(ctx=ctx)
 
             body_bytes, headers = encoder(response_data)
+
+            # Add custom header
+            if self._custom_headers:
+                headers.update(self._custom_headers)
+
             # Todo: middleware
             await self._respond(
                 send=send,

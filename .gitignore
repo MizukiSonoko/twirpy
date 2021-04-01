@@ -118,7 +118,7 @@ venv.bak/
 
 .vscode
 
-version.txt
+#version.txt
 
 # generated Go binary
 protoc-gen-twirpy/protoc-gen-twirpy

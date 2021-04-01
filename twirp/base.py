@@ -18,7 +18,7 @@ Endpoint = namedtuple("Endpoint", ["service_name", "name", "function", "input", 
 
 
 class TwirpBaseApp(object):
-    def __init__(self, *middlewares, hook=None, prefix="", max_receive_message_length=1024*100*100, ctx_class=None):
+    def __init__(self, *middlewares, hook=None, prefix="", max_receive_message_length=1024*100*100, ctx_class=None, headers=None):
         self._prefix = prefix
         self._services = {}
         self._max_receive_message_length = max_receive_message_length
@@ -31,6 +31,8 @@ class TwirpBaseApp(object):
             hook = vtwirp_hook.TwirpHook()
         assert isinstance(hook, vtwirp_hook.TwirpHook)
         self._hook = hook
+
+        self._custom_headers = headers
 
     def add_service(self, svc: server.TwirpServer):
         self._services[self._prefix+svc.prefix] = svc
