@@ -44,6 +44,20 @@ class TwirpASGIApp(base.TwirpBaseApp):
         ctx = self._ctx_class()
         try:
             http_method = scope['method']
+
+            if http_method == "OPTIONS":
+                headers = {}
+                if self._custom_headers:
+                    headers.update(self._custom_headers)
+                await self._respond(
+                    send=send,
+                    status=200,
+                    headers=headers,
+                    body_bytes=b""
+                )
+                self._hook.response_sent(ctx=ctx)
+                return 
+
             if http_method != "POST":
                 raise exceptions.TwirpServerException(
                 code=errors.Errors.BadRoute,
